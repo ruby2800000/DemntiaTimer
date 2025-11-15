@@ -1,0 +1,296 @@
+html, body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: url('/static/abstract_bg.svg') no-repeat center center fixed, linear-gradient(135deg, #f5f6fa 0%, #e3e4e8 100%);
+    background-size: cover;
+    color: #222;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    transition: background 0.7s;
+    font-weight: 600;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Segoe UI Semibold', 'Segoe UI', Arial, sans-serif;
+    color: #222;
+    margin-top: 0;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+.elderly-section {
+    margin-bottom: 18px;
+    border-radius: 12px;
+    padding: 18px 20px;
+    font-size: 1.1em;
+    font-weight: 500;
+    color: #444;
+    background: #f7f7f7;
+    border: 1px solid #e3e4e8;
+}
+.start-btn {
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 16px 40px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 24px;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px #e3e4e8;
+    letter-spacing: 0.5px;
+}
+.landing-container {
+    max-width: 520px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 2px 16px #e3e4e8;
+    padding: 32px 32px 40px 32px;
+    margin-top: 38px;
+    margin-bottom: 38px;
+    text-align: center;
+    font-weight: 600;
+}
+body {
+    font-family: 'Segoe UI', 'Merriweather', 'Georgia', Arial, sans-serif;
+    background: linear-gradient(135deg, #f5f6fa 0%, #e3e4e8 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    transition: background 0.7s;
+    color: #222;
+}
+
+.landing-container.elderly {
+    background: #fff;
+    border: 2px solid #e3e4e8;
+    border-radius: 22px;
+    box-shadow: 0 8px 32px rgba(44,62,80,0.08);
+    padding: 0 0 34px 0;
+    max-width: 540px;
+    margin: 60px auto 0 auto;
+    text-align: center;
+    overflow: hidden;
+}
+
+.elderly-section {
+    margin-bottom: 18px;
+    padding: 18px 20px;
+    border-radius: 12px;
+    font-size: 1.1em;
+    box-shadow: 0 1px 4px #e3e4e8;
+    background: #f7f7f7;
+    border: 1px solid #e3e4e8;
+}
+
+.landing-container.elderly h1 {
+    font-size: 2.3em;
+    color: #222;
+    margin-bottom: 18px;
+    margin-top: 0;
+    font-family: 'Merriweather', 'Georgia', serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.landing-container.elderly ul {
+    font-size: 1.1em;
+    color: #444;
+    text-align: left;
+    max-width: 420px;
+    margin: 0 auto 0 auto;
+    padding-left: 20px;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.landing-container.elderly .start-btn {
+    font-size: 1.4em;
+    padding: 20px 48px;
+    margin-top: 32px;
+    border-radius: 12px;
+    background: #1976d2;
+    color: #fff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    border: 1px solid #1976d2;
+    box-shadow: 0 2px 8px #e3e4e8;
+}
+.landing-container.elderly .start-btn:hover {
+    background: #1565c0;
+    color: #fff;
+    border: 1px solid #1565c0;
+}
+
+/* Action row: group primary and info buttons on a single line */
+.action-row {
+    display: flex;
+    flex-direction: row;
+    gap: 18px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap; /* keep everything on one line */
+    margin: 32px 0 18px 0;
+    overflow-x: auto; /* allow horizontal scroll on small screens instead of wrapping */
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none; /* hide IE scrollbar */
+    scrollbar-width: thin;
+    padding-bottom: 6px; /* space for scrollbar on some platforms */
+}
+
+.info-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap; /* don't wrap label/arrow */
+    padding: 10px 18px;
+    background: #e3e4e8;
+    color: #222;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.05em;
+    border: 1px solid #d0d6db;
+    flex: 0 0 auto; /* prevent shrinking so all buttons stay inline */
+}
+
+.info-btn .info-label {
+    display: inline-block;
+}
+
+.info-btn .info-arrow {
+    font-size: 1.6em;
+    color: #357abd;
+    line-height: 1;
+    text-shadow: 0 2px 8px #b2c7f7;
+}
+
+/* Make sure start button keeps its visual weight but fits the row */
+.action-row .start-btn {
+    padding: 14px 28px;
+    font-size: 1.25em;
+    flex: 0 0 auto; /* prevent shrinking */
+}
+
+/* small visible scrollbar styling */
+.action-row::-webkit-scrollbar {
+    height: 8px;
+}
+.action-row::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.06);
+    border-radius: 4px;
+}
+
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin: 32px 0 18px 0;
+}
+.quiz-option-label {
+    display: flex;
+    align-items: center;
+    font-size: 1.35em;
+    background: #f7f7f7;
+    border-radius: 10px;
+    padding: 18px 22px;
+    cursor: pointer;
+    border: 2px solid #e3e4e8;
+    transition: border 0.2s, background 0.2s;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+.quiz-option-label:hover, .quiz-option-radio:focus + .quiz-option-box {
+    border-color: #888;
+    background: #e3e4e8;
+}
+.quiz-option-radio {
+    width: 28px;
+    height: 28px;
+    margin-right: 18px;
+    accent-color: #888;
+}
+.quiz-option-box {
+    flex: 1;
+    font-size: 1.1em;
+    color: #222;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px #e3e4e8;
+}
+h1 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 18px;
+}
+.question-block {
+    margin-bottom: 28px;
+    background: #f4f6f8;
+    padding: 18px 18px 10px 18px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(44,62,80,0.04);
+}
+label {
+    font-size: 1em;
+    color: #34495e;
+    margin-left: 8px;
+}
+button, .container a.button-link {
+    background: linear-gradient(90deg, #5a8dee 0%, #6fd6ff 100%);
+    color: #fff;
+    border: none;
+    padding: 13px 32px;
+    border-radius: 7px;
+    font-size: 1.1em;
+    cursor: pointer;
+    display: block;
+    margin: 30px auto 0 auto;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+    transition: background 0.2s;
+    text-align: center;
+    text-decoration: none;
+}
+button:hover, .container a.button-link:hover {
+    background: linear-gradient(90deg, #3a6edc 0%, #4fc6ef 100%);
+}
+.result-message {
+    font-size: 1.2em;
+    color: #222;
+    text-align: center;
+    margin: 30px 0 20px 0;
+    font-family: 'Merriweather', 'Georgia', serif;
+}
+.recommendation {
+    background: #f7f7f7;
+    color: #222;
+    border-left: 5px solid #bbb;
+    padding: 18px 22px;
+    border-radius: 8px;
+    margin: 20px 0 30px 0;
+    font-size: 1.05em;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+.todo-list {
+    background: #f7f7f7;
+    color: #222;
+    border-left: 5px solid #bbb;
+    padding: 18px 22px;
+    border-radius: 8px;
+    margin: 20px 0 30px 0;
+    font-size: 1.13em;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+.todo-list ul {
+    margin: 12px 0 0 18px;
+    padding: 0;
+}
+.todo-list li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+    font-size: 1.08em;
+}

@@ -1,0 +1,55 @@
+<svg width="100%" height="100%" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg1" x1="0" y1="0" x2="1920" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fffbe7"/>
+      <stop offset="1" stop-color="#f9f6f2"/>
+    </linearGradient>
+    <linearGradient id="doodle1" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffe0b2"/>
+      <stop offset="1" stop-color="#fffde7"/>
+    </linearGradient>
+    <linearGradient id="doodle2" x1="0" y1="0" x2="150" y2="150" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffe082"/>
+      <stop offset="1" stop-color="#ffe0b2"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg1)"/>
+  <!-- Abstract blobs -->
+  <ellipse cx="350" cy="200" rx="180" ry="90" fill="#ffe0b2" fill-opacity="0.18"/>
+  <ellipse cx="1600" cy="900" rx="220" ry="110" fill="#ffe082" fill-opacity="0.13"/>
+  <ellipse cx="1000" cy="100" rx="120" ry="60" fill="#fff9c4" fill-opacity="0.13"/>
+  <!-- Scattered line-drawn brain and neuron doodles -->
+  <!-- Brain doodle top left -->
+  <path d="M 180 120 Q 190 100 210 110 Q 230 120 250 110 Q 270 100 280 120 Q 290 140 270 150 Q 250 160 230 150 Q 210 140 200 150 Q 190 160 180 140 Z" stroke="#ffe0b2" stroke-width="3.5" fill="none" opacity="0.22"/>
+  <!-- Brain doodle center -->
+  <path d="M 900 300 Q 910 280 930 290 Q 950 300 970 290 Q 990 280 1000 300 Q 1010 320 990 330 Q 970 340 950 330 Q 930 320 920 330 Q 910 340 900 320 Z" stroke="#ffe082" stroke-width="3.5" fill="none" opacity="0.19"/>
+  <!-- Brain doodle bottom right -->
+  <path d="M 1700 900 Q 1710 880 1730 890 Q 1750 900 1770 890 Q 1790 880 1800 900 Q 1810 920 1790 930 Q 1770 940 1750 930 Q 1730 920 1720 930 Q 1710 940 1700 920 Z" stroke="#ffe0b2" stroke-width="3.5" fill="none" opacity="0.18"/>
+  <!-- Neuron doodle top right -->
+  <g opacity="0.18">
+    <circle cx="1700" cy="120" r="18" stroke="#ffe082" stroke-width="3" fill="none"/>
+    <path d="M 1700 102 L 1700 70 M 1718 120 L 1750 120 M 1700 138 L 1700 170 M 1682 120 L 1650 120 M 1712 108 L 1735 95 M 1688 108 L 1665 95 M 1712 132 L 1735 145 M 1688 132 L 1665 145" stroke="#ffe082" stroke-width="2" fill="none"/>
+  </g>
+  <!-- Neuron doodle left center -->
+  <g opacity="0.15">
+    <circle cx="200" cy="600" r="15" stroke="#ffe0b2" stroke-width="2.5" fill="none"/>
+    <path d="M 200 585 L 200 550 M 215 600 L 250 600 M 200 615 L 200 650 M 185 600 L 150 600 M 210 590 L 235 575 M 190 590 L 165 575 M 210 610 L 235 625 M 190 610 L 165 625" stroke="#ffe0b2" stroke-width="1.5" fill="none"/>
+  </g>
+  <!-- Neuron doodle bottom center -->
+  <g opacity="0.13">
+    <circle cx="950" cy="950" r="20" stroke="#ffe082" stroke-width="2.5" fill="none"/>
+    <path d="M 950 930 L 950 900 M 970 950 L 1000 950 M 950 970 L 950 1000 M 930 950 L 900 950 M 962 938 L 985 925 M 938 938 L 915 925 M 962 962 L 985 975 M 938 962 L 915 975" stroke="#ffe082" stroke-width="1.5" fill="none"/>
+  </g>
+  <!-- Neuron doodle mid right -->
+  <g opacity="0.14">
+    <circle cx="1700" cy="600" r="13" stroke="#ffe0b2" stroke-width="2" fill="none"/>
+    <path d="M 1700 587 L 1700 560 M 1713 600 L 1740 600 M 1700 613 L 1700 640 M 1687 600 L 1660 600 M 1709 591 L 1730 580 M 1691 591 L 1670 580 M 1709 609 L 1730 620 M 1691 609 L 1670 620" stroke="#ffe0b2" stroke-width="1.2" fill="none"/>
+  </g>
+  <!-- Neuron doodle top center -->
+  <g opacity="0.13">
+    <circle cx="950" cy="100" r="14" stroke="#ffe082" stroke-width="2" fill="none"/>
+    <path d="M 950 86 L 950 60 M 964 100 L 990 100 M 950 114 L 950 140 M 936 100 L 910 100 M 958 92 L 980 80 M 942 92 L 920 80 M 958 108 L 980 120 M 942 108 L 920 120" stroke="#ffe082" stroke-width="1.2" fill="none"/>
+  </g>
+  <!-- Subtle lines -->
+  <path d="M 200 900 Q 400 800 600 900 T 1000 900 T 1400 900 T 1700 900" stroke="#ffe0b2" stroke-width="3" fill="none" opacity="0.11"/>
+</svg>

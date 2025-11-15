@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hospital Suggestions for Dementia Care</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background: #f6f8fa;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            padding: 32px 24px;
+        }
+        h1 {
+            color: #2d3e50;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .dementia-images {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .dementia-images img {
+            height: 80px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+        .dropdown-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+        select {
+            padding: 8px 16px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #b0b0b0;
+            margin-right: 12px;
+        }
+        button {
+            padding: 8px 24px;
+            background: #4a90e2;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+        button:hover {
+            background: #357abd;
+        }
+        .hospital-list {
+            margin-top: 24px;
+        }
+        .hospital-card {
+            background: #f0f4f8;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .hospital-card a {
+            color: #4a90e2;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .hospital-card a:hover {
+            text-decoration: underline;
+        }
+        .no-hospitals {
+            color: #c0392b;
+            text-align: center;
+            margin-top: 32px;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Find Dementia Care Hospitals</h1>
+        <div class="dementia-images">
+            <img src="https://neuronhospital.com/wp-content/uploads/2024/04/Dementia.jpg" alt="Dementia" style="max-width:100%; height:auto; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.07);">
+        </div>
+        <div style="display:flex; justify-content:center; margin-bottom:24px;">
+        </div>
+        <form class="dropdown-form" method="get" action="{{ url_for('suggest_hospital') }}">
+            <label for="city">Select your city:</label>
+            <select name="location" id="city">
+                {% for city in cities %}
+                    <option value="{{ city }}" {% if city == selected_city %}selected{% endif %}>{{ city.title() }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Show Hospitals</button>
+        </form>
+        <div class="hospital-list">
+            {% if hospitals and selected_city %}
+                <h2>Hospitals in {{ selected_city.title() }}</h2>
+                {% for hospital in hospitals %}
+                    <div class="hospital-card">
+                        <a href="{{ hospital.url }}" target="_blank">{{ hospital.name }}</a>
+                    </div>
+                {% endfor %}
+            {% elif selected_city %}
+                <div class="no-hospitals">No hospital data found for {{ selected_city.title() }}. Please consult your local healthcare provider.</div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

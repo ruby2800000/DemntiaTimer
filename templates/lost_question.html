@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quick question</title>
+    <style>
+      :root{--bg:#f7f9fc;--card:#ffffff;--accent:#0b79ff;--muted:#6b7280}
+      html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial}
+      .wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px;background:linear-gradient(180deg,var(--bg),#eef4ff)}
+      .card{width:100%;max-width:520px;background:var(--card);border-radius:14px;box-shadow:0 6px 18px rgba(11,23,57,0.08);padding:20px}
+      h1{font-size:20px;margin:0 0 8px}
+      p{margin:0 0 18px;color:var(--muted)}
+      .btn-row{display:flex;gap:12px}
+      button{flex:1;padding:14px 12px;border-radius:10px;border:1px solid rgba(11,23,57,0.06);font-size:16px;background:white}
+      button.primary{background:var(--accent);color:#fff;border:none}
+      button:focus{outline:3px solid rgba(11,121,255,0.18);outline-offset:2px}
+      .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+      .helper{margin-top:12px;color:var(--muted);font-size:14px}
+      @media (max-width:420px){.card{padding:16px;border-radius:12px}button{padding:12px 10px;font-size:15px}}
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <section class="card" aria-labelledby="q-title">
+        <h1 id="q-title">Did you get lost while walking or driving?</h1>
+        <p id="q-desc">Choose one of the options below.</p>
+
+        <form id="lost-form" aria-describedby="q-desc" method="post" action="/submit_lost">
+          <div class="btn-row" role="radiogroup" aria-label="Did you get lost while walking or driving?">
+            <!-- Use numeric values to match quiz answer encoding (0/1). Use button type="button" so JS can set the value before submitting -->
+            <button type="button" name="answer" value="1" role="radio" aria-checked="false" id="opt-yes" class="primary" data-value="yes">Yes</button>
+            <button type="button" name="answer" value="0" role="radio" aria-checked="false" id="opt-no" data-value="no">No</button>
+          </div>
+          <!-- hidden input will carry the selected value when submitting -->
+          <input type="hidden" name="answer" id="answer-input" value="">
+          <div class="helper" id="result" aria-live="polite"></div>
+          <div style="margin-top:12px;display:flex;justify-content:flex-end;">
+            <button type="submit" id="submit-btn" disabled>Submit</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <script>
+      (function(){
+        const yes = document.getElementById('opt-yes');
+        const no = document.getElementById('opt-no');
+        const result = document.getElementById('result');
+        const hidden = document.getElementById('answer-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const radios = [yes,no];
+
+        function clearSelection(){
+          radios.forEach(btn=>{
+            btn.setAttribute('aria-checked','false');
+            btn.classList.remove('selected');
+            btn.style.transform = '';
+          });
+        }
+
+        function select(btn){
+          clearSelection();
+          btn.setAttribute('aria-checked','true');
+          btn.style.transform = 'translateY(-2px)';
+          hidden.value = btn.value; // store selected value for form submission
+          submitBtn.disabled = false; // enable submit after selection
+          submitBtn.focus();
+          result.textContent = `You selected: ${btn.dataset.value.toUpperCase()}`;
+        }
+
+        radios.forEach(btn=>{
+          btn.addEventListener('click',()=>select(btn));
+          btn.addEventListener('keydown',e=>{
+            if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); select(btn); }
+            if(e.key === 'ArrowRight' || e.key === 'ArrowDown'){
+              e.preventDefault(); const next = radios[(radios.indexOf(btn)+1)%radios.length]; next.focus();
+            }
+            if(e.key === 'ArrowLeft' || e.key === 'ArrowUp'){
+              e.preventDefault(); const prev = radios[(radios.indexOf(btn)-1+radios.length)%radios.length]; prev.focus();
+            }
+          });
+        });
+
+        // Make options focusable
+        yes.tabIndex = 0; no.tabIndex = 0;
+
+      })();
+    </script>
+  </body>
+</html>

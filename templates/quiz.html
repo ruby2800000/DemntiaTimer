@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dementia Detection Quiz</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .loader-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(255,251,231,0.85);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.5s;
+        }
+        .loader-overlay.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .neuron-loader {
+            width: 90px;
+            height: 90px;
+            display: block;
+            animation: spin 1.5s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader-overlay" id="loaderOverlay">
+        <svg class="neuron-loader" viewBox="0 0 100 100" fill="none">
+            <circle cx="50" cy="50" r="32" stroke="#ffe082" stroke-width="6" fill="none" opacity="0.7"/>
+            <circle cx="50" cy="50" r="18" stroke="#ffe0b2" stroke-width="4" fill="none" opacity="0.7"/>
+            <path d="M50 18 L50 2 M50 98 L50 82 M18 50 L2 50 M98 50 L82 50 M70 30 L85 15 M30 70 L15 85 M70 70 L85 85 M30 30 L15 15" stroke="#ffe082" stroke-width="2.5"/>
+            <circle cx="50" cy="18" r="3.5" fill="#ffe082"/>
+            <circle cx="50" cy="82" r="3.5" fill="#ffe082"/>
+            <circle cx="18" cy="50" r="3.5" fill="#ffe082"/>
+            <circle cx="82" cy="50" r="3.5" fill="#ffe082"/>
+        </svg>
+    </div>
+    <div class="container">
+        <h1>Dementia Detection Quiz</h1>
+    <form method="post" id="quizForm">
+            {% for q in questions %}
+                {% set qidx = loop.index0 %}
+                <div class="question-block">
+                    <p><strong>Q{{ loop.index }}: {{ q.question }}</strong></p>
+                    {% for option in q.options %}
+                        <label>
+                            <input type="radio" name="q{{ qidx }}" value="{{ loop.index0 }}" required>
+                            {{ option }}
+                        </label><br>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <script>
+        // Hide loader when page is ready
+        window.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('loaderOverlay').classList.add('hide');
+        });
+        // Show loader on form submit
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('quizForm');
+            if(form) {
+                form.addEventListener('submit', function() {
+                    document.getElementById('loaderOverlay').classList.remove('hide');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

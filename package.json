@@ -1,0 +1,13 @@
+{
+  "name": "dementia-timer",
+  "version": "1.0.0",
+  "description": "Dementia Detection Quiz Application",
+  "main": "app.py",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["dementia", "detection", "quiz"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+}

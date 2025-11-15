@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Result</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
+            background: linear-gradient(135deg, #e8eaf6 0%, #f5f7fa 50%, #e0e0e0 100%);
+        }
+        .container {
+            max-width: 600px;
+            margin: 48px auto;
+            background: rgba(255,255,255,0.95);
+            border-radius: 24px;
+            box-shadow: 0 6px 32px rgba(44,62,80,0.10);
+            padding: 40px 32px 32px 32px;
+        }
+        h1 {
+            font-family: 'Montserrat', Arial, sans-serif;
+            font-size: 2.2em;
+            color: #2d3e50;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .scoreboard {
+            background: linear-gradient(90deg, #e3f0ff 0%, #f6f8fa 100%);
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.07);
+            padding: 18px 0 8px 0;
+            margin-bottom: 24px;
+            text-align: center;
+            font-size: 1.2em;
+            color: #357abd;
+            font-weight: 600;
+        }
+        .result-message {
+            background: #f7f1e3;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 1.15em;
+            color: #7b3e19;
+            margin-bottom: 18px;
+            text-align: center;
+            box-shadow: 0 1px 6px rgba(44,62,80,0.05);
+        }
+        .card {
+            background: #f4f6f8;
+            border-radius: 12px;
+            box-shadow: 0 1px 6px rgba(44,62,80,0.05);
+            padding: 16px 18px;
+            margin-bottom: 18px;
+        }
+        .card strong {
+            color: #2d3e50;
+            font-size: 1.08em;
+        }
+        .todo-list ul {
+            margin: 10px 0 0 0;
+            padding-left: 18px;
+        }
+        .todo-list li {
+            font-size: 1em;
+            color: #3d3d3d;
+            margin-bottom: 6px;
+        }
+        .doctor-advice {
+            font-size: 1.08em;
+            color: #2d3e50;
+        }
+        .hospital-links {
+            background: #e3f0ff;
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 18px;
+            box-shadow: 0 1px 6px rgba(44,62,80,0.05);
+        }
+        .hospital-links ul {
+            margin: 10px 0 0 0;
+            padding-left: 18px;
+        }
+        .hospital-links li a {
+            color: #357abd;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        .hospital-links li a:hover {
+            text-decoration: underline;
+        }
+        .city-select {
+            margin-top: 24px;
+            text-align: center;
+        }
+        .city-select label {
+            font-weight: 600;
+            color: #2d3e50;
+        }
+        .city-select select {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 1em;
+            margin-right: 8px;
+            border: 1px solid #b0b0b0;
+        }
+        .city-select button {
+            padding: 8px 24px;
+            background: linear-gradient(90deg, #4a90e2 0%, #357abd 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.07);
+        }
+        .city-select button:hover {
+            background: linear-gradient(90deg, #357abd 0%, #4a90e2 100%);
+        }
+        .button-link {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 10px 32px;
+            background: linear-gradient(90deg, #6fcf97 0%, #56cc9d 100%);
+            color: #fff;
+            border-radius: 8px;
+            font-size: 1.08em;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(44,62,80,0.07);
+            transition: background 0.2s;
+        }
+        .button-link:hover {
+            background: linear-gradient(90deg, #56cc9d 0%, #6fcf97 100%);
+        }
+    </style>
+    <style>
+        .loader-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(255,251,231,0.85);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.5s;
+        }
+        .loader-overlay.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .neuron-loader {
+            width: 90px;
+            height: 90px;
+            display: block;
+            animation: spin 1.5s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader-overlay" id="loaderOverlay">
+        <svg class="neuron-loader" viewBox="0 0 100 100" fill="none">
+            <circle cx="50" cy="50" r="32" stroke="#ffe082" stroke-width="6" fill="none" opacity="0.7"/>
+            <circle cx="50" cy="50" r="18" stroke="#ffe0b2" stroke-width="4" fill="none" opacity="0.7"/>
+            <path d="M50 18 L50 2 M50 98 L50 82 M18 50 L2 50 M98 50 L82 50 M70 30 L85 15 M30 70 L15 85 M70 70 L85 85 M30 30 L15 15" stroke="#ffe082" stroke-width="2.5"/>
+            <circle cx="50" cy="18" r="3.5" fill="#ffe082"/>
+            <circle cx="50" cy="82" r="3.5" fill="#ffe082"/>
+            <circle cx="18" cy="50" r="3.5" fill="#ffe082"/>
+            <circle cx="82" cy="50" r="3.5" fill="#ffe082"/>
+        </svg>
+    </div>
+    <div class="container" style="background:#e3f2fd; min-height:100vh; border-radius:18px; box-shadow:0 2px 12px rgba(0,0,0,0.04); padding:32px 0;">
+        <h1>Your Dementia Risk Result</h1>
+        <div class="scoreboard">
+            Score: {{ score }} / {{ total }} correct
+            <div style="max-width:220px; margin:18px auto;">
+                <canvas id="scorePie" width="220" height="220"></canvas>
+            </div>
+            <div style="margin-top:20px; font-size:1.1em; font-weight:600; color:#2d3e50;">
+                Total Time: {{ "%.2f"|format(total_duration) }} seconds<br>
+                Average Time per Question: {{ "%.2f"|format(avg_duration) }} seconds
+            </div>
+            <script>
+                window.addEventListener('DOMContentLoaded', function() {
+                    const score = Number('{{ score }}');
+                    const total = Number('{{ total }}');
+                    const incorrect = total - score;
+                    const ctx = document.getElementById('scorePie').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: ['Correct', 'Incorrect'],
+                            datasets: [{
+                                data: [score, incorrect],
+                                backgroundColor: ['#6fcf97', '#eb5757'],
+                                borderWidth: 2,
+                                borderColor: '#fff',
+                            }]
+                        },
+                        options: {
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'bottom',
+                                    labels: {
+                                        color: '#333',
+                                        font: { size: 14 }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+            </script>
+        </div>
+        <div class="result-message">{{ result }}</div>
+        {% if recommendation %}
+        <div class="card recommendation">
+            <strong>Medical Recommendation:</strong><br>
+            {{ recommendation }}
+        </div>
+        {% endif %}
+        {% if precautions %}
+        <div class="card todo-list">
+            <strong>Precautions to Take:</strong>
+            <ul>
+                {% for point in precautions %}
+                <li>{{ point }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+        {% if doctor %}
+        <div class="card doctor-advice">
+            <strong>Which doctor to see:</strong><br>
+            {{ doctor }}
+        </div>
+        {% endif %}
+        {% if show_hospital_suggestion %}
+            {% if hospital_links and hospital_links|length > 0 %}
+            <div class="hospital-links">
+                <strong>Nearby Hospitals for Dementia Treatment:</strong>
+                <ul>
+                    {% for link in hospital_links %}
+                    <li><a href="{{ link.url }}" target="_blank">{{ link.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% else %}
+            <div class="city-select">
+                <label>Select your city for hospital suggestions:</label><br>
+                <form method="get" action="/suggest_hospital" style="margin-top:12px;">
+                    <select name="location">
+                        {% set cities = [
+                            'Agra','Ahmedabad','Allahabad','Amritsar','Bangalore','Bhopal','Bhubaneswar','Chandigarh','Chennai','Coimbatore','Dehradun','Delhi','Durgapur','Faridabad','Ghaziabad','Goa','Gurgaon','Guwahati','Hyderabad','Indore','Jaipur','Jalandhar','Jammu','Jamshedpur','Kanpur','Kochi','Kolkata','Lucknow','Ludhiana','Madurai','Mangalore','Meerut','Mumbai','Nagpur','Nashik','Noida','Patna','Pune','Raipur','Rajkot','Ranchi','Siliguri','Surat','Thane','Thiruvananthapuram','Tiruchirappalli','Udaipur','Vadodara','Varanasi','Vijayawada','Visakhapatnam'
+                        ] %}
+                        {% for city in cities %}
+                            <option value="{{ city|lower }}" {% if selected_city==city|lower %}selected{% endif %}>{{ city }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">Show Hospitals</button>
+                </form>
+            </div>
+            {% endif %}
+        {% endif %}
+        <a href="/quiz" class="button-link">Retake Quiz</a>
+        <a href="/" class="button-link" style="background:linear-gradient(90deg,#b2c7f7 0%,#8faeea 100%);margin-left:12px;">Back to Home</a>
+    </div>
+    <script>
+        // Hide loader when page is ready
+        window.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('loaderOverlay').classList.add('hide');
+        });
+        // Show loader when navigating away (for button links)
+        document.addEventListener('DOMContentLoaded', function() {
+            var links = document.querySelectorAll('a.button-link');
+            links.forEach(function(link) {
+                link.addEventListener('click', function() {
+                    document.getElementById('loaderOverlay').classList.remove('hide');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

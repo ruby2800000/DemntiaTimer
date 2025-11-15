@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dementia Detection Quiz</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #e3f2fd;
+            font-family: 'Poppins', Arial, sans-serif;
+        }
+        .container {
+            background: #e3f2fd;
+            border-radius: 18px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+            max-width: 540px;
+            margin: 40px auto;
+            padding: 32px 28px;
+        }
+        h1 {
+            font-size: 2em;
+            color: #357abd;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .question-block {
+            margin-bottom: 24px;
+        }
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: 18px 0 24px 0;
+        }
+        .quiz-option-label {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px #e3e4e8;
+            padding: 12px 18px;
+            font-size: 1.13em;
+            font-weight: 500;
+            color: #222;
+            cursor: pointer;
+            transition: box-shadow 0.2s;
+        }
+        .quiz-option-label:hover {
+            box-shadow: 0 4px 16px #b2c7f7;
+        }
+        .quiz-option-radio {
+            accent-color: #357abd;
+            margin-right: 14px;
+            transform: scale(1.2);
+        }
+        button[type="submit"] {
+            background: linear-gradient(90deg, #357abd 0%, #4a90e2 100%);
+            color: #fff;
+            font-size: 1.15em;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 36px;
+            margin-top: 12px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px #b2c7f7;
+            transition: background 0.2s;
+        }
+        button[type="submit"]:hover {
+            background: linear-gradient(90deg, #4a90e2 0%, #357abd 100%);
+        }
+        .loader-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(255,251,231,0.85);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            transition: opacity 0.5s;
+        }
+        .loader-overlay.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .neuron-loader {
+            width: 90px;
+            height: 90px;
+            display: block;
+            animation: spin 1.5s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #timer-container {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #d63031;
+            display: block;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="loader-overlay" id="loaderOverlay">
+        <svg class="neuron-loader" viewBox="0 0 100 100" fill="none">
+            <circle cx="50" cy="50" r="32" stroke="#ffe082" stroke-width="6" fill="none" opacity="0.7"/>
+            <circle cx="50" cy="50" r="18" stroke="#ffe0b2" stroke-width="4" fill="none" opacity="0.7"/>
+            <path d="M50 18 L50 2 M50 98 L50 82 M18 50 L2 50 M98 50 L82 50 M70 30 L85 15 M30 70 L15 85 M70 70 L85 85 M30 30 L15 15" stroke="#ffe082" stroke-width="2.5"/>
+            <circle cx="50" cy="18" r="3.5" fill="#ffe082"/>
+            <circle cx="50" cy="82" r="3.5" fill="#ffe082"/>
+            <circle cx="18" cy="50" r="3.5" fill="#ffe082"/>
+            <circle cx="82" cy="50" r="3.5" fill="#ffe082"/>
+        </svg>
+    </div>
+    <div class="container">
+        <h1>Dementia Detection Quiz</h1>
+        <div class="question-block">
+            <p style="font-size:1.13em; color:#222; font-weight:600; margin-bottom:10px;">
+                <span style="color:#357abd; font-weight:700;">Q{{ qnum+1 }} of {{ total }}:</span> {{ question.question }}
+            </p>
+            <div id="timer-container"></div>
+            <button onclick="speakQuestion()">🔊 Read Aloud</button>
+            <button onclick="startListening()">🎤 Answer by Speech</button>
+            <div>
+                <label for="recognizedText">Recognized answer:</label>
+                <input type="text" id="recognizedText" readonly style="width: 60%;">
+            </div>
+            <form method="post" id="quizForm">
+                <div class="quiz-options">
+                {% for option in question.options %}
+                    <label class="quiz-option-label">
+                        <input type="radio" name="answer" value="{{ loop.index0 }}" required class="quiz-option-radio">
+                        <span class="quiz-option-box">{{ option }}</span>
+                    </label>
+                {% endfor %}
+                </div>
+                <input type="hidden" name="answer" id="speechAnswer">
+                <button type="submit">{{ 'Next' if qnum+1 < total else 'See Result' }}</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        // Function to show the loader
+        function showLoader() {
+            document.getElementById('loaderOverlay').classList.remove('hide');
+        }
+
+        // Function to hide the loader
+        function hideLoader() {
+            document.getElementById('loaderOverlay').classList.add('hide');
+        }
+
+        // Hide loader when page is ready (initial state)
+        window.addEventListener('DOMContentLoaded', function() {
+            hideLoader();
+        });
+
+        // Show loader on manual form submit
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.getElementById('quizForm');
+            if(form) {
+                form.addEventListener('submit', function() {
+                    showLoader();
+                });
+            }
+        });
+
+        function speakQuestion() {
+            const msg = new SpeechSynthesisUtterance("{{ question.question }}");
+            window.speechSynthesis.speak(msg);
+        }
+
+        function startListening() {
+            let SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                alert('Speech recognition not supported in this browser.');
+                return;
+            }
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+            
+            // Show loader when the recognition process begins
+            showLoader();
+
+            recognition.onresult = function(event) {
+                // Hide loader once a result is returned
+                hideLoader();
+
+                const transcript = event.results[0][0].transcript.toLowerCase();
+                document.getElementById('recognizedText').value = transcript;
+                
+                let found = false;
+                {% for option in question.options %}
+                if (transcript.includes("{{ option|lower }}")) {
+                    document.getElementById('speechAnswer').value = {{ loop.index0 }};
+                    found = true;
+                }
+                {% endfor %}
+                
+                if (found) {
+                    // Show loader again before submitting the form to indicate processing
+                    showLoader();
+                    document.forms[0].submit();
+                } else {
+                    alert('Could not match your answer to any option. Please try again or select manually.');
+                }
+            };
+            
+            recognition.onerror = function(event) {
+                // Hide the loader if an error occurs
+                hideLoader();
+                alert('Speech recognition error: ' + event.error);
+            };
+
+            recognition.start();
+        }
+
+        // Start timer logic
+        const timerDisplay = document.getElementById('timer-container');
+        let seconds = 0;
+        const interval = setInterval(() => {
+            seconds++;
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            timerDisplay.textContent = `Time: ${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+        }, 1000);
+        
+        const form = document.getElementById('quizForm');
+        form.addEventListener('submit', function() {
+            clearInterval(interval); // Stop the timer
+            showLoader();
+        });
+    </script>
+</body>
+</html>
